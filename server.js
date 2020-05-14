@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const port = process.env.PORT || 5000;
 const logger = require('morgan');
+const multer = require('multer');
+
 const attendanceController = require('./api/Controllers/attendanceController');
 const branchAttendanceController = require('./api/Controllers/branchAttendanceController');
 const organizationController = require('./api/Controllers/organizationController');
@@ -10,6 +12,10 @@ const branchController = require('./api/Controllers/branchController');
 const deviceLocationController = require('./api/Controllers/deviceLocationController');
 const deviceNameController = require('./api/Controllers/deviceNameController');
 const userTypeController = require('./api/Controllers/uerTypeController');
+const rfidUserController = require('./api/Controllers/rfidUserController');
+const adminController = require('./api/Controllers/AdminController');
+
+
 const app = express()
 
 app.use(bodyParser.json())
@@ -17,8 +23,34 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(logger("dev"));
 
-//===================Api Starts=====================//
 
+//===================Excel to DB START====================//
+global.__basedir = __dirname;
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+     cb(null, __basedir + '/uploads/')
+  },
+  filename: (req, file, cb) => {
+     cb(null, file.fieldname + "-" + Date.now() + "-" + file.originalname)
+  }
+});
+
+const upload = multer({storage: storage});
+
+app.post('/createMassRUser', upload.single("uploadfile"), (req, res) =>{
+
+  rfidUserController.importExcelData2MySQL(__basedir + '/uploads/' + req.file.filename);
+  res.json({
+        'msg': 'File uploaded/import successfully!', 'file': req.file
+      });
+});
+//===================Excel to DB END====================//
+
+
+
+
+//===================Api Starts=====================//
 
 
 //============Store Attendance Route Start==========//
@@ -106,6 +138,55 @@ app.route('/editType/:id').put(userTypeController.edit);
 //============Configuration Route Route End==========//
 
 
+
+
+
+//============Configuration Route Start(RFID-User) ==========//
+app.route('/gtExcelForUpload').post(rfidUserController.getForMass);  
+app.route('/createRUser').post(rfidUserController.create);  
+// app.route('/getRUsers').get(rfidUserController.get);  
+// app.route('/getRUsersById/:id').get(rfidUserController.singleGetById);
+// app.route('/getRUsersByBranch/:id').get(rfidUserController.GetByBranchId);  
+// app.route('/getRUsersByDeviceLocation/:id').get(rfidUserController.GetByDeviceLocationId);  
+// app.route('/deleteRUser/:id').delete(rfidUserController.delete);  
+// app.route('/editRUser/:id').put(rfidUserController.edit);  
+//============Configuration Route Route End==========//
+
+
+
+//============Configuration Route Start(Admin-User) ==========//
+// app.route('/createUser').post(adminController.create);  
+// app.route('/login').post(adminController.login);  
+// app.route('/changePassword').post(adminController.changePassword);  
+// app.route('/resetPassword').post(adminController.resetPassword);  
+// app.route('/getUsers').get(adminController.get);  
+// app.route('/getUsersById/:id').get(adminController.singleGetById);
+// app.route('/getUsersByBranch/:id').get(adminController.GetByBranchId);  
+// app.route('/getUsersByDeviceLocation/:id').get(adminController.GetByDeviceLocationId);  
+// app.route('/deleteUser/:id').delete(adminController.delete);  
+// app.route('/editRUser/:id').put(adminController.edit);  
+//============Configuration Route Route End==========//
+
+
+//============Configuration Route Start(Time-Limit) ==========// 
+// app.route('/SetTime').post(adminController.resetPassword);  
+// app.route('/editTime/:id').put(adminController.get);  
+// app.route('/getAllTimeByBranch').get(adminController.singleGetById);
+// app.route('/getSingleTimeByDeviceLocation/:id').get(adminController.GetByBranchId);  
+// app.route('/deleteTime/:id').delete(adminController.delete);  
+//============Configuration Route Route End==========//
+
+
+//============ Route Start(Dashboard-Report) ==========//
+// app.route('/getallRfidUsersByDeviceLocation').get(adminController.get);  
+// app.route('/getallRfidUsersByBranch').get(adminController.singleGetById);
+// app.route('/getPresentRfidUsersByDeviceLocation').get(adminController.GetByBranchId);  
+// app.route('/getPresentRfidUsersByBranch').get(adminController.GetByDeviceLocationId); 
+// app.route('/getAbsentRfidUsersByDeviceLocation').get(adminController.GetByDeviceLocationId); 
+// app.route('/getAbsentRfidUsersByBranch').get(adminController.GetByDeviceLocationId); 
+// app.route('/getIntimeByDeviceLocation').get(adminController.GetByDeviceLocationId); 
+// app.route('/getIntimeByBranch').get(adminController.GetByDeviceLocationId); 
+//============ Route Route End==========//
 
 
 //====================Api Ends==================//

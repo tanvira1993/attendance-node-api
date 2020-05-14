@@ -15,7 +15,7 @@ exports.storeApiAttendance = (req,res)=>{
    console.log(currentDate)
    
    const months    = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-   const CurrentMonth = months[today.getMonth()];
+   const CurrentMonth = months[today.getMonth()] + yyyy;
    console.log(CurrentMonth)
 
    const currentTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
