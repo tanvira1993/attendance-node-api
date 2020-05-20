@@ -88,3 +88,23 @@ exports.login = (req, res) => {
       res.send(e);
     });
 };
+
+exports.tokenCheck = (req, res) => {
+  const token = req.body.token;
+  const id = req.body.id;
+
+  knex
+    .select()
+    .from("users")
+    .where("id", id)
+    .then((r) => {
+      if (r[0].token === token) {
+        res.send(true);
+      } else {
+        res.send(false);
+      }
+    })
+    .catch((er) => {
+      res.send(er);
+    });
+};
