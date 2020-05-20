@@ -155,8 +155,8 @@ app.route('/createRUser').post(rfidUserController.create);
 
 
 //============Configuration Route Start(Admin-User) ==========//
-// app.route('/createUser').post(adminController.create);  
-// app.route('/login').post(adminController.login);  
+app.route('/createUser').post(adminController.create);  
+app.route('/login').post(adminController.login);  
 // app.route('/changePassword').post(adminController.changePassword);  
 // app.route('/resetPassword').post(adminController.resetPassword);  
 // app.route('/getUsers').get(adminController.get);  
