@@ -112,3 +112,17 @@ exports.create = (req,res) =>{
       res.send(e)
   })
 }
+
+
+exports.GetByDeviceLocationId = (req,res)=>{
+  const id = req.params.id
+    knex.select()
+    .from('rfid_users')    
+    .where('rfid_users.device_location_id',id)
+    .then(r=>{
+        res.send(r)
+    })
+    .catch(e=>{
+        res.send(e)
+    })
+}

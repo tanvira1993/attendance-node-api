@@ -147,7 +147,7 @@ app.route('/createRUser').post(rfidUserController.create);
 // app.route('/getRUsers').get(rfidUserController.get);  
 // app.route('/getRUsersById/:id').get(rfidUserController.singleGetById);
 // app.route('/getRUsersByBranch/:id').get(rfidUserController.GetByBranchId);  
-// app.route('/getRUsersByDeviceLocation/:id').get(rfidUserController.GetByDeviceLocationId);  
+app.route('/getRUsersByDeviceLocation/:id').get(rfidUserController.GetByDeviceLocationId);  
 // app.route('/deleteRUser/:id').delete(rfidUserController.delete);  
 // app.route('/editRUser/:id').put(rfidUserController.edit);  
 //============Configuration Route Route End==========//
