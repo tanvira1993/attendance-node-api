@@ -305,7 +305,7 @@ exports.attendanceReportUsingUsers = (req,res)=>{
   console.log(location,start,end)
     
   
-  knex.raw(`SELECT rfid_users.*,sub.in_time AS inTime,sub.mark AS mark,sub.comment,sub.month_name,sub.created_at
+  knex.raw(`SELECT rfid_users.*,sub.in_time AS inTime,sub.mark AS mark,sub.comment,sub.month_name,sub.created_at,sub.out_time AS outTime
   FROM 
   (SELECT attendance.*, 1 AS mark
   FROM attendance

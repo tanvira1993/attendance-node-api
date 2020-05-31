@@ -14,7 +14,7 @@ const deviceNameController = require('./api/Controllers/deviceNameController');
 const userTypeController = require('./api/Controllers/uerTypeController');
 const rfidUserController = require('./api/Controllers/rfidUserController');
 const adminController = require('./api/Controllers/AdminController');
-
+const dashBoardController = require('./api/Controllers/DashBoardController')
 
 const app = express()
 
@@ -179,11 +179,11 @@ app.route('/tokenValidate').post(adminController.tokenCheck);
 
 
 //============ Route Start(Dashboard-Report) ==========//
-// app.route('/getallRfidUsersByDeviceLocation').get(adminController.get);  
+app.route('/getallRfidUsersByDeviceLocation').get(dashBoardController.getallUsers);  
 // app.route('/getallRfidUsersByBranch').get(adminController.singleGetById);
-// app.route('/getPresentRfidUsersByDeviceLocation').get(adminController.GetByBranchId);  
+app.route('/getPresentRfidUsersByDeviceLocation').get(dashBoardController.getPresentByDeviceLocationId);  
 // app.route('/getPresentRfidUsersByBranch').get(adminController.GetByDeviceLocationId); 
-// app.route('/getAbsentRfidUsersByDeviceLocation').get(adminController.GetByDeviceLocationId); 
+app.route('/presentMonthRatioByDeviceLocation').get(dashBoardController.getMonthReportByDeviceLocationId); 
 // app.route('/getAbsentRfidUsersByBranch').get(adminController.GetByDeviceLocationId); 
 // app.route('/getIntimeByDeviceLocation').get(adminController.GetByDeviceLocationId); 
 // app.route('/getIntimeByBranch').get(adminController.GetByDeviceLocationId); 
