@@ -148,7 +148,9 @@ app.route('/createRUser').post(rfidUserController.create);
 // app.route('/getRUsersById/:id').get(rfidUserController.singleGetById);
 // app.route('/getRUsersByBranch/:id').get(rfidUserController.GetByBranchId);  
 app.route('/getRUsersByDeviceLocation/:id').get(rfidUserController.GetByDeviceLocationId);  
-// app.route('/deleteRUser/:id').delete(rfidUserController.delete);  
+app.route('/deleteRUser/:id').delete(rfidUserController.delete);
+app.route('/createFinger').post(rfidUserController.createFinger);  
+app.route('/getFingersById').post(rfidUserController.getFingers);  
 // app.route('/editRUser/:id').put(rfidUserController.edit);  
 //============Configuration Route Route End==========//
 
@@ -158,7 +160,7 @@ app.route('/getRUsersByDeviceLocation/:id').get(rfidUserController.GetByDeviceLo
 app.route('/createUser').post(adminController.create);  
 app.route('/login').post(adminController.login);
 app.route('/tokenValidate').post(adminController.tokenCheck);    
-// app.route('/changePassword').post(adminController.changePassword);  
+app.route('/changePassword').post(adminController.changePassword);  
 // app.route('/resetPassword').post(adminController.resetPassword);  
 // app.route('/getUsers').get(adminController.get);  
 // app.route('/getUsersById/:id').get(adminController.singleGetById);

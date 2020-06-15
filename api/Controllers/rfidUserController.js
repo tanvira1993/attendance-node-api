@@ -126,3 +126,46 @@ exports.GetByDeviceLocationId = (req,res)=>{
         res.send(e)
     })
 }
+
+exports.delete =(req,res)=>{
+  const id = req.params.id
+    knex('rfid_users')
+    .where('id', id)
+    .del()
+    .then(r=>{
+        res.send("200")
+    })
+    .catch(e=>{
+        res.send(e)
+    })
+}
+
+
+exports.createFinger=(req,res)=>{
+  const name = req.headers.device_name
+  const username = req.body.user_name
+  const id = req.body.id
+  const location = req.headers.device_location_id
+  knex('finger_store')
+  .insert([{name: name,finger_id: id,branch_id: branch,device_location_id:location, users_name:username}])
+  .then(r=>{
+    res.send(r)
+})
+.catch(e=>{
+    res.send(e)
+})
+}
+
+exports.getFingers=(req,res)=>{
+  const id = req.headers.device_location_id
+  knex.select()
+  .from('finger_store')
+  .where('device_location_id', id)
+  .then(r=>{
+      res.send(r)
+  })
+  .catch(e=>{
+      res.send(e)
+  })
+
+}

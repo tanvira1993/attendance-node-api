@@ -69,7 +69,17 @@ exports.login = (req, res) => {
                   .from("users")
                   .where("id", r[0].uid)
                   .then((rrrr) => {
-                    res.send(rrrr);
+                    console.log("gua",rrrr[0].email,rrrr[0].device_location_id)
+                    knex.select('device_name')
+                    .from('devices')
+                    .where('device_location_id',rrrr[0].device_location_id)
+                    .then(last=>{
+                      console.log('gua chudi',last,rrrr,last.device_name)
+                      res.json({
+                        'device_name':last,
+                         'auth' :rrrr
+                      })
+                    })
                   })
                   .catch((er) => {
                     res.send(er);
@@ -108,3 +118,31 @@ exports.tokenCheck = (req, res) => {
       res.send(er);
     });
 };
+
+exports.changePassword = (req,res)=>{
+  const password = req.body.password;
+  const admin_id = req.headers.userId;
+  const saltRounds = 10;
+  bcrypt
+    .hash(password, saltRounds)
+    .then(function (hash) {
+      // Store hash in your password DB.
+      console.log("hash pass==>", hash);
+
+      knex("users")
+      .where('id',admin_id)
+      .update({
+        password: hash,
+      })
+        .then((r) => {
+          res.send(r);
+        })
+        .catch((e) => {
+          res.send(e);
+        });
+    })
+    .catch((err) => {
+      console.log("hash pass err==>", err);
+      res.send(err);
+    });
+}
