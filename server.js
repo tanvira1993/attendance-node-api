@@ -150,6 +150,7 @@ app.route('/createRUser').post(rfidUserController.create);
 app.route('/getRUsersByDeviceLocation/:id').get(rfidUserController.GetByDeviceLocationId);  
 app.route('/deleteRUser/:id').delete(rfidUserController.delete);
 app.route('/createFinger').post(rfidUserController.createFinger);  
+app.route('/checkFinger').post(rfidUserController.checkFinger);  
 app.route('/getFingersById').post(rfidUserController.getFingers);  
 // app.route('/editRUser/:id').put(rfidUserController.edit);  
 //============Configuration Route Route End==========//

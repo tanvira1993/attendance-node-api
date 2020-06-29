@@ -142,7 +142,7 @@ exports.delete =(req,res)=>{
 
 
 exports.createFinger=(req,res)=>{
-  const name = req.headers.device_name
+  const name = req.body.name
   const username = req.body.user_name
   const id = req.body.id
   const location = req.headers.device_location_id
@@ -166,6 +166,31 @@ exports.getFingers=(req,res)=>{
   })
   .catch(e=>{
       res.send(e)
+  })
+
+}
+
+exports.checkFinger=(req,res)=>{
+  const Devicename = req.body.name
+  const id = req.body.id
+  knex.select()
+  .from('finger_store')
+  .where('name',Devicename)
+  .where('finger_id',id)
+  .then(r=>{
+    console.log("length",r.length)
+    if(r.length>0){
+      res.send(false)
+    }
+    if(r.length==0){
+      res.send(true)
+    }
+    
+  })
+  .catch(e=>{
+    console.log(e)
+
+    res.send('somthing wrong')
   })
 
 }
